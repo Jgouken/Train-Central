@@ -1,0 +1,21 @@
+{
+  "name": "train-central",
+  "version": "1.0.0",
+  "description": "For the Discord server Train Central",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "author": "Jgouken",
+  "license": "ISC",
+
+  "bugs": {
+    "url": "https://github.com/Jgouken/Train-Central/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jgouken/Train-Central.git"
+  },
+  "homepage": "https://github.com/Jgouken/Train-Central#readme"
+}
