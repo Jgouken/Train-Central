@@ -31,7 +31,8 @@ bot.on('ready', async () => {
     let afterRegion = await getNextRegion(guild)
 
     // Move the trian
-    guild.me.roles.remove((guild.me.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
+    if (guild.me.roles.cache.get(role => role.name === beforeRegion)) guild.me.roles.remove((guild.me.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
+    
     guild.me.roles.add((guild.me.roles.cache.get(role => role.name === afterRegion)).id).catch((e) => {console.log(e)})
     
     currentRegion = afterRegion
