@@ -29,11 +29,13 @@ bot.on('ready', async () => {
     const train = bot.channels.cache.get('860023491729817620')
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(guild)
+    const role = (guild.roles.cache.find(role => role.name === afterRegion)).id
+    console.log(role)
 
     // Move the trian
     if (guild.me.roles.cache.get(role => role.name === beforeRegion)) guild.me.roles.remove((guild.me.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
 
-    guild.me.roles.add((guild.roles.get(role => role.name === afterRegion)).id).catch((e) => {console.log(e)})
+    guild.me.roles.add(role)
     
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
