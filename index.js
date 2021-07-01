@@ -32,8 +32,8 @@ bot.on('ready', async () => {
 
     // Move the trian
     if (guild.me.roles.cache.get(role => role.name === beforeRegion)) guild.me.roles.remove((guild.me.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
-    
-    guild.me.roles.add((guild.me.roles.cache.get(role => role.name === afterRegion)).id).catch((e) => {console.log(e)})
+
+    guild.me.roles.add((guild.roles.cache.get(role => role.name === afterRegion)).id).catch((e) => {console.log(e)})
     
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
