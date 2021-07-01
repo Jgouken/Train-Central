@@ -36,7 +36,7 @@ bot.on('ready', async () => {
     
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
-  }, 15 * 60000) // 120 seconds
+  }, 15 * 1000) // 120 seconds
 })
 
 bot.login(config.TOKEN)
