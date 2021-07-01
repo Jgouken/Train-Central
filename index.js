@@ -48,5 +48,3 @@ bot.on('ready', async () => {
 })
 
 bot.login(config.TOKEN)
-
-// CODE PUT TOGETHER BY JGOUKEN ON GITHUB
