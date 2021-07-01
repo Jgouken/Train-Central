@@ -23,9 +23,9 @@ async function getNextRegion(guild) {
 }
 
 bot.on('ready', async () => {
-  console.log(`\n\n${config.name} IS ONLINE!\n\n`);
+  console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   setTimeout(async () => {
-    const guild = bot.guild.cache.get('851966158651392040')
+    const guild = bot.guilds.cache.get('851966158651392040')
     const train = bot.channels.cache.get('860023491729817620')
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(guild)
@@ -36,7 +36,7 @@ bot.on('ready', async () => {
     
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
-  }, 15 * 1000) // 120 seconds
+  }, 10 * 1000) // 120 seconds
 })
 
 bot.login(config.TOKEN)
