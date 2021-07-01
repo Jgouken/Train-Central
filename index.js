@@ -37,12 +37,14 @@ bot.on('ready', async () => {
   setTimeout(async () => {
     const guild = bot.guild.cache.get('851966158651392040')
     const train = bot.channels.cache.get('860023491729817620')
+    let beforeRegion = await getRegion(guild)
+    let afterRegion = await getNextRegion(guild)
 
     // Move the trian
-    currentRegion = await getNextRegion(guild)
-    guild.me.roles.remove(guild.me.roles.cache.get(role => role.name === await getRegion()).id).catch((e) => {console.log(e)})
-    guild.me.roles.add(guild.me.roles.cache.get(role => role.name === await getNextRegion(guild)).id).catch((e) => {console.log(e)})
+    guild.me.roles.remove(guild.me.roles.cache.get(role => role.name === beforeRegion).id).catch((e) => {console.log(e)})
+    guild.me.roles.add(guild.me.roles.cache.get(role => role.name === afterRegion).id).catch((e) => {console.log(e)})
     
+    currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
   }, 15 * 60000) // 120 seconds
 })
