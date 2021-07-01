@@ -11,13 +11,12 @@ let regions = [
 ]
 
 async function getNextRegion(guild) {
-  var i = 1;
+  var i = 0;
   regions.forEach(region => {
-    i++
     if (guild.me.roles.cache.some(role => role.name === region)) {
-      return regions[i + 1] || "Work Region"
+      if (regions[i + 1]) {return regions[i + 1]} else return regions[0]
     } else {
-      return "Work Region"
+      i++
     }
   });
 }
@@ -29,8 +28,7 @@ bot.on('ready', async () => {
     const train = bot.channels.cache.get('860023491729817620')
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(guild)
-    const role = (guild.roles.cache.find(role => role.name === afterRegion)).id
-    console.log(role)
+    const role = (guild.roles.cache.find(role => role.name === afterRegion))
 
     // Move the trian
     if (guild.me.roles.cache.get(role => role.name === beforeRegion)) guild.me.roles.remove((guild.me.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
