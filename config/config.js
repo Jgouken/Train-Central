@@ -8,5 +8,5 @@ module.exports = {
     name: 'Train',
     TOKEN: process.env.TOKEN,
     prefix: `tc!`,
-    stop: true
+    stop: false
 }
