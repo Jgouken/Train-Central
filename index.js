@@ -42,7 +42,7 @@ bot.on('ready', async () => {
   const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
 
-  while (0 = 0) {
+  while (0 === 0) {
     setTimeout(async () => {
       let beforeRegion = currentRegion
       let afterRegion = await getNextRegion(my)
