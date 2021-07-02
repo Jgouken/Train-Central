@@ -28,12 +28,10 @@ async function getNextRegion(my) {
   }
 }
 
-async function getNextRole(my) {
-  for (let i = -1; i < regionIDs.length; i++) {
-    if (my.roles.cache.get(regionIDs[i])) {
-      if (i >= regionIDs.length) return regionIDs[0]
-      else return regionIDs[(i + 1)]
-    } else if (i >= regionIDs.length) return regionIDs[0]
+async function getNextRole(my, afterRegion) {
+  for (let i = -1; i < regions.length; i++) {
+    if (regions[i] === afterRegion) return regionIDs[i]
+    else if (i >= regions.length) return regionsIDs[0]
   }
 }
 
@@ -45,7 +43,7 @@ bot.on('ready', async () => {
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
-    const role = guild.roles.cache.get(await getNextRole(my))
+    const role = guild.roles.cache.get(await getNextRole(my, afterRegion))
 
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
