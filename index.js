@@ -20,7 +20,7 @@ let regionIDs = [
 var currentRegion = regions[0]
 
 async function getNextRegion(my) {
-  for (let i = -1; i < regions.length; i++) {
+  for (let i = 0; i < regions.length; i++) {
     if (my.roles.cache.get(regions[i])) {
       if (i >= regions.length) return regions[0]
       else return regions[(i + 1)]
@@ -29,7 +29,7 @@ async function getNextRegion(my) {
 }
 
 async function getNextRole(afterRegion) {
-  for (let i = -1; i < regions.length; i++) {
+  for (let i = 0; i < regions.length; i++) {
     if (regions[i] === afterRegion) return regionIDs[i]
     else if (i >= regions.length) return regionsIDs[0]
   }
