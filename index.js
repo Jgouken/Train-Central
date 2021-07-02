@@ -34,7 +34,7 @@ bot.on('ready', async () => {
         if (!regions[currentRegion]) currentRegion = 0
         
         member.roles.add(regionIDs[currentRegion])
-      }, 120 * 1000);
+      }, 15 * 1000);
 
     }, 105 * 1000);
 
