@@ -1,8 +1,5 @@
 const config = require('./config/config')
 const {bot, Discord} = require('./config/config')
-const guild = bot.guilds.cache.get('851966158651392040')
-const train = bot.channels.cache.get('860023491729817620')
-const my = bot.members.cache.get('860171173518245928')
 
 let regions = [
   "Work Region",
@@ -13,7 +10,7 @@ let regions = [
 ]
 var currentRegion = regions[0]
 
-async function getNextRegion() {
+async function getNextRegion(my) {
   for (let i = -1; i < regions.length; i++) {
     if (my.roles.find(regions[i])) {
       if (i >= regions.length) return regions[0]
@@ -24,9 +21,12 @@ async function getNextRegion() {
 
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
+  const guild = bot.guilds.cache.get('851966158651392040')
+  const train = bot.channels.cache.get('860023491729817620')
+  const my = bot.members.cache.get('860171173518245928')
   setTimeout(async () => {
     let beforeRegion = currentRegion
-    let afterRegion = await getNextRegion()
+    let afterRegion = await getNextRegion(my)
     const role = guild.roles.cache.find(role => role.name === afterRegion)
 
     // Move the train
