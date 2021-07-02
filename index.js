@@ -24,46 +24,63 @@ bot.on('ready', async () => {
   if (config.stop == true) return console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE, BUT IS STOPPED!\n\n`);
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get("851966158651392040")
-  const train = bot.channels.cache.get("860023491729817620")
+  const train = bot.channels.cache.get("860608724019314768")
   const member = guild.members.cache.get("860171173518245928")
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
 
     var interval = setInterval (async function () {
-      train.send('**15 SECONDS BEFORE THE TRAIN LEAVES.**')
+      member.roles.remove(regionIDs[currentRegion])
+      currentRegion += 1
+      if (!regions[currentRegion]) currentRegion = 0
+      member.roles.add(regionIDs[currentRegion])
+      train.overwritePermissions([
+        {
+          id: guild.id,
+          deny: ['VIEW_CHANNEL']
+        },
+        {
+          id: regionIDs[currentRegion],
+          allow: ['VIEW_CHANNEL'],
+        },
+      ]);
 
-      var interval2 = setInterval (async function () {
-        member.roles.remove(regionIDs[currentRegion])
-        currentRegion += 1
-        if (!regions[currentRegion]) currentRegion = 0
+      riders.forEach(user => {
+        let member = guild.members.cache.get(user)
+        for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
         member.roles.add(regionIDs[currentRegion])
+      })
 
-        riders.forEach(user => {
-          let member = guild.members.cache.get(user)
-          for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
-          member.roles.add(regionIDs[currentRegion])
+      riders.clear()
+
+      train.send({
+        embed: {
+          title: regions[currentRegion],
+          description: `The train has arrived! React with 🚉 to get on the train!`,
+          timestamp: new Date(),
+          footer: {
+            text: `Train leaves in 2 minutes.`
+          }
+        }
+      })
+      train.send(`I am now in the ${regions[currentRegion]}! ALL ABOOOOOOARD! (React with 🚉 to join the ride)!`)
+      .then((m) => {
+        m.react('🚉')
+        const filter = (reaction, user) => {
+          return reaction.emoji.name === '🚉' && !user.bot
+        };
+        
+        const collector = m.createReactionCollector(filter, { time: 120 * 1000 });
+        
+        collector.on('collect', (reaction, user) => {
+          riders.add(user.id)
+        });
+
+        collector.on('end', () => {
+          m.reactions.removeAll()
+          m.delete()
         })
-
-        riders.clear()
-
-        train.send(`I am now in the ${regions[currentRegion]}! ALL ABOOOOOOARD! (React with 🚉 to join the ride)!`)
-        .then((m) => {
-          const filter = (reaction, user) => {
-            return reaction.emoji.name === '🚉' && !user.bot
-          };
-          
-          const collector = m.createReactionCollector(filter, { time: 120 * 1000 });
-          
-          collector.on('collect', (reaction, user) => {
-            riders.add(user.id)
-          });
-
-          collector.on('end', () => {
-            m.reactions.removeAll()
-          })
-        })
-      }, 15 * 1000);
-
-    }, 105 * 1000);
+      })
+    }, 120 * 1000);
 
 })
 
