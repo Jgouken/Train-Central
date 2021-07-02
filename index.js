@@ -23,7 +23,7 @@ bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get('851966158651392040')
   const train = bot.channels.cache.get('860023491729817620')
-  const my = guild.members.fetch('860171173518245928')
+  const my = guild.members.cache.fetch('860171173518245928')
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
