@@ -26,12 +26,17 @@ bot.on('ready', async () => {
   const member = guild.members.cache.get("860171173518245928")
 
     var interval = setInterval (async function () {
-      member.roles.remove(regionIDs[currentRegion])
-      currentRegion += 1
-      if (!regions[currentRegion]) currentRegion = 0
-      
-      member.roles.add(regionIDs[currentRegion])
-    }, 120 * 1000);
+      train.send('**15 SECONDS BEFORE THE TRAIN LEAVES.**')
+
+      var interval2 = setInterval (async function () {
+        member.roles.remove(regionIDs[currentRegion])
+        currentRegion += 1
+        if (!regions[currentRegion]) currentRegion = 0
+        
+        member.roles.add(regionIDs[currentRegion])
+      }, 120 * 1000);
+
+    }, 105 * 1000);
 
 })
 
