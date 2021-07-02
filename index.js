@@ -42,20 +42,20 @@ bot.on('ready', async () => {
   const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
 
-  setTimeout(async () => {
-    let beforeRegion = currentRegion
-    let afterRegion = await getNextRegion(my)
-    let role = await getNextRole(afterRegion)
-    console.log(regions[0])
-    console.log(regionIDs[0])
-
-    // Move the train
-    if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.find(role => role.name === beforeRegion)).id).catch(() => {return})
-
-    my.roles.add(role)
-    currentRegion = afterRegion
-    train.send(`I'm now at the ${currentRegion}!`)
-  }, 10 * 1000) // 120 seconds
+  while (0 = 0) {
+    setTimeout(async () => {
+      let beforeRegion = currentRegion
+      let afterRegion = await getNextRegion(my)
+      let role = await getNextRole(afterRegion)
+  
+      // Move the train
+      if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.find(role => role.name === beforeRegion)).id).catch(() => {return})
+  
+      my.roles.add(role)
+      currentRegion = afterRegion
+      train.send(`I'm now at the ${currentRegion}!`)
+    }, 10 * 1000) // 120 seconds
+  }
 })
 
 bot.login(config.TOKEN)
