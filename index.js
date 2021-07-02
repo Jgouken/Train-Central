@@ -9,6 +9,14 @@ let regions = [
   //"Thieves Cave"
 ]
 
+let regionIDs = [
+  "860179772202156053",
+  "860179816207876136",
+  "860179694837170197",
+  "860180163576070184",
+  // "860179834704232458"
+]
+
 var currentRegion = regions[0]
 
 async function getNextRegion(my) {
@@ -20,6 +28,15 @@ async function getNextRegion(my) {
   }
 }
 
+async function getNextRole(my) {
+  for (let i = -1; i < regionIDs.length; i++) {
+    if (my.roles.cache.get(regionIDs[i])) {
+      if (i >= regionIDs.length) return regionIDs[0]
+      else return regionIDs[(i + 1)]
+    } else if (i >= regionIDs.length) return regionIDs[0]
+  }
+}
+
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get('851966158651392040')
@@ -28,7 +45,7 @@ bot.on('ready', async () => {
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
-    const role = guild.roles.cache.find(role => role.name === afterRegion)
+    const role = guild.roles.cache.get(await getNextRole())
 
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
