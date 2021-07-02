@@ -24,10 +24,10 @@ bot.on('ready', async () => {
 
   async function getNextRegion(my) {
     for (let i = 0; i < regions.length; i++) {
-      if (my.roles.cache.get(regions[i])) {
-        if (i >= regions.length) return regions[0]
-        else return regions[(i + 1)]
-      } else if (i >= regions.length) return regions[0]
+      if (my.roles.cache.get(regionIDs[i])) {
+        return regions[i + 1]
+      }
+      if (i >= regions.length) return regions[0]
     }
   }
   
