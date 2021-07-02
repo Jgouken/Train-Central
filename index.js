@@ -1,5 +1,7 @@
 const config = require('./config/config')
 const {bot, Discord} = require('./config/config')
+const guild = bot.guilds.cache.get('851966158651392040')
+const train = bot.channels.cache.get('860023491729817620')
 
 let regions = [
   "Work Region",
@@ -22,8 +24,6 @@ async function getNextRegion() {
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   setTimeout(async () => {
-    const guild = bot.guilds.cache.get('851966158651392040')
-    const train = bot.channels.cache.get('860023491729817620')
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion()
     const role = guild.roles.cache.find(role => role.name === afterRegion)
