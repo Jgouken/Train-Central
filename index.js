@@ -55,14 +55,13 @@ bot.on('ready', async () => {
       train.send({
         embed: {
           title: regions[currentRegion],
-          description: `The train has arrived! React with 🚉 to get on the train!`,
+          description: `The train has arrived! React with 🚉 to get on the train to go to the **${regions[currentRegion + 1] || regions[0]}**!`,
           timestamp: new Date(),
           footer: {
             text: `Train leaves in 2 minutes.`
           }
         }
       })
-      train.send(`I am now in the ${regions[currentRegion]}! ALL ABOOOOOOARD! (React with 🚉 to join the ride)!`)
       .then((m) => {
         m.react('🚉')
         const filter = (reaction, user) => {
