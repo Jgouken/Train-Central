@@ -49,8 +49,7 @@ bot.on('ready', async () => {
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
 
-    bot.user.add(role)
-    
+    my.roles.add(role)
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
   }, 10 * 1000) // 120 seconds
