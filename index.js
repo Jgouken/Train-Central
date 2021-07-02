@@ -8,6 +8,7 @@ let regions = [
   "Airport",
   //"Thieves Cave"
 ]
+
 var currentRegion = regions[0]
 
 async function getNextRegion(my) {
@@ -22,12 +23,12 @@ async function getNextRegion(my) {
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get('851966158651392040')
-  const train = bot.channels.cache.get("860023491729817620");
+  const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
-    const role = guild.roles.cache.get(role => role.name === afterRegion)
+    const role = guild.roles.cache.find(role => role.name === afterRegion)
 
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
@@ -36,7 +37,7 @@ bot.on('ready', async () => {
     
     currentRegion = afterRegion
     train.send(`I'm now at the ${currentRegion}!`)
-  }, 20 * 1000) // 120 seconds
+  }, 10 * 1000) // 120 seconds
 })
 
 bot.login(config.TOKEN)
