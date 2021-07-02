@@ -75,7 +75,6 @@ bot.on('ready', async () => {
         });
 
         collector.on('end', () => {
-          m.reactions.removeAll()
           m.delete()
         })
       })
