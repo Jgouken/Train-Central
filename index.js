@@ -42,7 +42,7 @@ bot.on('ready', async () => {
   const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
 
-    var interval = setInterval (function () {
+    var interval = setInterval (async function () {
       let beforeRegion = currentRegion
       let afterRegion = await getNextRegion(my)
       let role = await getNextRole(afterRegion)
