@@ -72,7 +72,7 @@ bot.on('ready', async () => {
             return !user.bot
           };
           
-          const collector = m.createReactionCollector(filter, { time: 10 * 1000 });
+          const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
           
           collector.on('collect', (reaction, user) => {
             riders.add(user.id)
@@ -82,9 +82,9 @@ bot.on('ready', async () => {
             m.delete()
           })
         })
-      }, 15 * 1000);
+      }, config.warningTime * 1000);
     })
-  }, 10 * 1000);
+  }, (config.waitTime - (config.warningTime - 1)) * 1000);
 })
 
 bot.login(config.TOKEN)
