@@ -43,8 +43,7 @@ bot.on('ready', async () => {
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
-    let roleID = await getNextRole(afterRegion)
-    const role = guild.roles.cache.find(r => r.id === roleID);
+    let role = await getNextRole(afterRegion)
 
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
