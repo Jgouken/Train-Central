@@ -12,7 +12,7 @@ var currentRegion = regions[0]
 
 async function getNextRegion(my) {
   for (let i = -1; i < regions.length; i++) {
-    if (my.roles.find(regions[i])) {
+    if (my.roles.cache.find(regions[i])) {
       if (i >= regions.length) return regions[0]
       else return regions[(i + 1)]
     } else if (i >= regions.length) return regions[0]
