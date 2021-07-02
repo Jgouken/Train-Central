@@ -22,7 +22,7 @@ async function getNextRegion(my) {
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get('851966158651392040')
-  const train = bot.channels.cache.get('860023491729817620')
+  const train = bot.channels.cache.find(guild => guild.id == "851966158651392040");
   const my = guild.members.cache.get('860171173518245928')
   setTimeout(async () => {
     let beforeRegion = currentRegion
