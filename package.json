@@ -10,11 +10,6 @@
   "author": "Jgouken",
   "license": "ISC",
 
-  "dependencies": {
-    "discord.js": "^12.5.3",
-    "node": "^16.4.0"
-  },
-
   "bugs": {
     "url": "https://github.com/Jgouken/Train-Central/issues"
   },
