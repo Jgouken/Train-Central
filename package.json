@@ -11,7 +11,9 @@
   "license": "ISC",
 
   "dependencies": {
-    "discord.js": "13.0.0-dev.941cd86.1625141252"
+    "discord.js": "^13.0.0-dev.fe6cc0c.1625184228",
+    "discord": "^0.8.2",
+    "fn": "^0.2.0"
   },
 
   "bugs": {
