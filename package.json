@@ -12,7 +12,6 @@
 
   "dependencies": {
     "discord.js": "^13.0.0-dev.fe6cc0c.1625184228",
-    "discord": "^0.8.2",
     "node": "^16.4.0"
   },
 
