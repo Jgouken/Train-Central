@@ -28,58 +28,63 @@ bot.on('ready', async () => {
   const member = guild.members.cache.get("860171173518245928")
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
 
-    var interval = setInterval (async function () {
-      member.roles.remove(regionIDs[currentRegion])
-      currentRegion += 1
-      if (!regions[currentRegion]) currentRegion = 0
-      member.roles.add(regionIDs[currentRegion])
-      train.overwritePermissions([
-        {
-          id: guild.id,
-          deny: ['VIEW_CHANNEL']
-        },
-        {
-          id: regionIDs[currentRegion],
-          allow: ['VIEW_CHANNEL'],
-        },
-      ]);
-
-      riders.forEach(user => {
-        let member = guild.members.cache.get(user)
-        for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
+  setInterval (async function () {
+    train.send(`Train will depart in **15** seconds.`)
+    .then((l) => {
+      setTimeout (async function () {
+        var date = new Date();
+        member.roles.remove(regionIDs[currentRegion])
+        currentRegion += 1
+        if (!regions[currentRegion]) currentRegion = 0
         member.roles.add(regionIDs[currentRegion])
-      })
-
-      riders.clear()
-
-      train.send({
-        embed: {
-          title: regions[currentRegion],
-          description: `The train has arrived! React with 🚉 to get on the train to go to the **${regions[currentRegion + 1] || regions[0]}**!`,
-          timestamp: new Date(),
-          footer: {
-            text: `Train leaves in 2 minutes.`
-          }
-        }
-      })
-      .then((m) => {
-        m.react('🚉')
-        const filter = (reaction, user) => {
-          return reaction.emoji.name === '🚉' && !user.bot
-        };
-        
-        const collector = m.createReactionCollector(filter, { time: 120 * 1000 });
-        
-        collector.on('collect', (reaction, user) => {
-          riders.add(user.id)
-        });
-
-        collector.on('end', () => {
-          m.delete()
+        train.overwritePermissions([
+          {
+            id: guild.id,
+            deny: ['VIEW_CHANNEL']
+          },
+          {
+            id: regionIDs[currentRegion],
+            allow: ['VIEW_CHANNEL'],
+          },
+        ]);
+  
+        riders.forEach(user => {
+          let member = guild.members.cache.get(user)
+          for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
+          member.roles.add(regionIDs[currentRegion])
         })
-      })
-    }, 120 * 1000);
-
+  
+        riders.clear()
+        l.delete({timeout:0})
+        train.send({
+          embed: {
+            title: regions[currentRegion],
+            description: `The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`,
+            timestamp: new Date(date.getTime() + 2 * 60000),
+            footer: {
+              text: `Leaving:`
+            }
+          }
+        })
+        .then((m) => {
+          m.react('🚂')
+          const filter = (user) => {
+            return !user.bot
+          };
+          
+          const collector = m.createReactionCollector(filter, { time: 10 * 1000 });
+          
+          collector.on('collect', (reaction, user) => {
+            riders.add(user.id)
+          });
+  
+          collector.on('end', () => {
+            m.delete()
+          })
+        })
+      }, 15 * 1000);
+    })
+  }, 10 * 1000);
 })
 
 bot.login(config.TOKEN)
