@@ -31,6 +31,7 @@ bot.on('ready', async () => {
   setInterval (async function () {
     train.send(`Train will depart in **15** seconds.`)
     .then((l) => {
+      l.delete({timeout:0})
       setTimeout (async function () {
         var date = new Date();
         member.roles.remove(regionIDs[currentRegion])
@@ -55,7 +56,6 @@ bot.on('ready', async () => {
         })
   
         riders.clear()
-        l.delete({timeout:0})
         train.send({
           embed: {
             title: regions[currentRegion],
