@@ -31,8 +31,7 @@ bot.on('ready', async () => {
       if (!regions[currentRegion]) currentRegion = 0
       
       member.roles.add(regionIDs[currentRegion])
-      train.send(`I'm in the ${regions[currentRegion]}!`)
-    }, 10 * 1000);
+    }, 120 * 1000);
 
 })
 
