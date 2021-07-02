@@ -12,7 +12,7 @@ var currentRegion = regions[0]
 
 async function getNextRegion(my) {
   for (let i = -1; i < regions.length; i++) {
-    if (my.roles.cache.find(regions[i])) {
+    if (my.roles.cache.get(regions[i])) {
       if (i >= regions.length) return regions[0]
       else return regions[(i + 1)]
     } else if (i >= regions.length) return regions[0]
@@ -22,13 +22,13 @@ async function getNextRegion(my) {
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get('851966158651392040')
-  const train = bot.channels.cache.find(channel => channel.id == "860023491729817620");
-  const myUser = bot.users.cache.find(user => user.id == "860171173518245928");
+  const train = bot.channels.cache.get(channel => channel.id == "860023491729817620");
+  const myUser = bot.users.cache.get(user => user.id == "860171173518245928");
   const my = guild.members.cache.get(myUser.id)
   setTimeout(async () => {
     let beforeRegion = currentRegion
     let afterRegion = await getNextRegion(my)
-    const role = guild.roles.cache.find(role => role.name === afterRegion)
+    const role = guild.roles.cache.get(role => role.name === afterRegion)
 
     // Move the train
     if (my.roles.cache.get(role => role.name === beforeRegion)) my.roles.remove((my.roles.cache.get(role => role.name === beforeRegion)).id).catch(() => {return})
