@@ -19,24 +19,25 @@ let regionIDs = [
 
 var currentRegion = regions[0]
 
-async function getNextRegion(my) {
-  for (let i = 0; i < regions.length; i++) {
-    if (my.roles.cache.get(regions[i])) {
-      if (i >= regions.length) return regions[0]
-      else return regions[(i + 1)]
-    } else if (i >= regions.length) return regions[0]
-  }
-}
-
-async function getNextRole(afterRegion) {
-  for (let i = 0; i < regions.length; i++) {
-    if (regions[i] === afterRegion) return regionIDs[i]
-    else if (i >= regions.length) return regionsIDs[0]
-  }
-}
-
 bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
+
+  async function getNextRegion(my) {
+    for (let i = 0; i < regions.length; i++) {
+      if (my.roles.cache.get(regions[i])) {
+        if (i >= regions.length) return regions[0]
+        else return regions[(i + 1)]
+      } else if (i >= regions.length) return regions[0]
+    }
+  }
+  
+  async function getNextRole(afterRegion) {
+    for (let i = 0; i < regions.length; i++) {
+      if (regions[i] === afterRegion) return regionIDs[i]
+      else if (i >= regions.length) return regionsIDs[0]
+    }
+  }
+
   const guild = bot.guilds.cache.get('851966158651392040')
   const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
