@@ -21,6 +21,7 @@ let regionIDs = [
 var currentRegion = 0
 
 bot.on('ready', async () => {
+  if (config.stop == true) return console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE, BUT IS STOPPED!\n\n`);
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get("851966158651392040")
   const train = bot.channels.cache.get("860023491729817620")
