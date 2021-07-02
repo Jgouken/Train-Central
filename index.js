@@ -41,7 +41,7 @@ bot.on('ready', async () => {
   const guild = bot.guilds.cache.get('851966158651392040')
   const train = bot.channels.cache.get("860023491729817620")
   const my = guild.members.cache.get("860171173518245928")
-
+    /*
     var interval = setInterval (async function () {
       let beforeRegion = currentRegion
       let afterRegion = await getNextRegion(my)
@@ -54,7 +54,7 @@ bot.on('ready', async () => {
       currentRegion = afterRegion
       train.send(`I'm now at the ${currentRegion}!`)
     }, 10 * 1000); 
-
+    */
 })
 
 bot.login(config.TOKEN)
