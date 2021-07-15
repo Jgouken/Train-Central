@@ -79,7 +79,8 @@ bot.on('ready', async () => {
           });
   
           collector.on('end', () => {
-            m.delete()
+            m.delete({timeout: 0})
+            m.delete({timeout: 1000}).catch(() => {return})
           })
         })
       }, config.warningTime * 1000);
