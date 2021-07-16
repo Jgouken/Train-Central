@@ -76,7 +76,7 @@ bot.on('ready', async () => {
         .setTitle(`Exited Train`)
         .setDescription(`You have exited the train. press the button again to enter.`)
 
-        train.send({embed: {arrivedAt}}, {button: {button}})
+        train.send(arrivedAt, {button: [button]})
         .then((m) => {
           bot.on('clickButton', async (button) => {
             await button.reply.defer()
