@@ -1,5 +1,6 @@
 const config = require('./config/config')
 const {bot, Discord} = require('./config/config')
+const disbut = require("discord-buttons");
 const riders = new Set();
 
 let regions = [
@@ -54,7 +55,11 @@ bot.on('ready', async () => {
           for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
           member.roles.add(regionIDs[currentRegion])
         })
-  
+        let button = new MessageButton()
+          .setStyle('green')
+          .setLabel('Enter/Exit') 
+          .setID('join');
+        
         riders.clear()
         train.send({
           embed: {
@@ -65,8 +70,42 @@ bot.on('ready', async () => {
               text: `Leaving:`
             }
           }
-        })
+        }, button)
         .then((m) => {
+          bot.on('clickButton', async (button) => {
+            await button.reply.defer()
+
+            if (!riders.has(user.id)) {
+              riders.add(user.id)
+              await button.reply.send({
+                embed: {
+                  title: `Entered Train to: ${regions[currentRegion]}`,
+                  description: `You have entered the train. Press the button again to exit.`,
+                  timestamp: new Date(date.getTime() + 2 * 60000),
+                  footer: {
+                    text: `Leaving:`
+                  }
+                }
+              }, true)
+            } else {
+              riders.delete(user.id)
+              await button.reply.send({
+                embed: {
+                  title: `Exited Train`,
+                  description: `You have exited the train. Press the button again to exit.`,
+                }
+              }, true)
+            }
+          });
+
+          setTimeout(() => {
+            button.setDisabled()
+            m.delete({timeout: 0}).catch(() => {return})
+            m.delete({timeout: 1000}).catch(() => {return})
+            train.send('**LEAVING...**').then((lv) => {lv.delete({timeout: 5000})})
+          }, (config.waitTime - 5) * 1000)
+
+          /*
           m.react('🚂')
           const filter = (user) => {
             return !user.bot
@@ -75,17 +114,19 @@ bot.on('ready', async () => {
           const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
           
           collector.on('collect', (reaction, user) => {
-            riders.add(user.id)
+            
           });
   
           collector.on('end', () => {
             m.delete({timeout: 0}).catch(() => {return})
             m.delete({timeout: 1000}).catch(() => {return})
           })
+
+          */
         })
-      }, config.warningTime * 1000);
+      }, (config.warningTime * 1000));
     })
-  }, (config.waitTime - (config.warningTime - 1)) * 1000);
+  }, ((config.waitTime - (config.warningTime - 1)) * 1000));
 })
 
 bot.login(config.TOKEN)
