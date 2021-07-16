@@ -79,7 +79,7 @@ bot.on('ready', async () => {
           });
   
           collector.on('end', () => {
-            m.delete({timeout: 0})
+            m.delete({timeout: 0}).catch(() => {return})
             m.delete({timeout: 1000}).catch(() => {return})
           })
         })
