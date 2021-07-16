@@ -62,40 +62,31 @@ bot.on('ready', async () => {
           .setID('join');
         
         riders.clear()
-        train.send({
-          embed: {
-            title: regions[currentRegion],
-            description: `The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`,
-            timestamp: new Date(date.getTime() + 2 * 60000),
-            footer: {
-              text: `Leaving:`
-            }
-          }
-        }, button)
+        let arrivedAt = Discord.MessageEmbed()
+        .setTitle(regions[currentRegion])
+        .setDescription(`The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`)
+        .setTimestamp(new Date(date.getTime() + 2 * 60000))
+        .setFooter(`Leaving:`)
+        let enterTrain = Discord.MessageEmbed()
+        .setTitle(`Entered Train to: ${regions[currentRegion]}`)
+        .setDescription(`You have entered the train. Press the button again to exit.`)
+        .setTimestamp(new Date(date.getTime() + 2 * 60000))
+        .setFooter(`Leaving:`)
+        let exitTrain = Discord.MessageEmbed()
+        .setTitle(`Exited Train`)
+        .setDescription(`You have exited the train. press the button again to enter.`)
+
+        train.send(arrivedAt, button)
         .then((m) => {
           bot.on('clickButton', async (button) => {
             await button.reply.defer()
 
             if (!riders.has(user.id)) {
               riders.add(user.id)
-              await button.reply.send({
-                embed: {
-                  title: `Entered Train to: ${regions[currentRegion]}`,
-                  description: `You have entered the train. Press the button again to exit.`,
-                  timestamp: new Date(date.getTime() + 2 * 60000),
-                  footer: {
-                    text: `Leaving:`
-                  }
-                }
-              }, true)
+              await button.reply.send(enterTrain, true)
             } else {
               riders.delete(user.id)
-              await button.reply.send({
-                embed: {
-                  title: `Exited Train`,
-                  description: `You have exited the train. Press the button again to exit.`,
-                }
-              }, true)
+              await button.reply.send(exitTrain, true)
             }
           });
 
