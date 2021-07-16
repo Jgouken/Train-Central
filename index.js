@@ -13,11 +13,11 @@ let regions = [
 ]
 
 let regionIDs = [
-  "860179772202156053",
-  "860179816207876136",
-  "860179694837170197",
-  "860180163576070184",
-  // "860179834704232458"
+  "860179772202156053", // Work
+  "860179816207876136", // Fun
+  "860179694837170197", // Shop
+  "860180163576070184", // Airport
+  // "860179834704232458" Thieves Cave
 ]
 
 var currentRegion = 0
@@ -76,7 +76,7 @@ bot.on('ready', async () => {
         .setTitle(`Exited Train`)
         .setDescription(`You have exited the train. press the button again to enter.`)
 
-        train.send(arrivedAt, {button: button})
+        train.send({embed: {arrivedAt}}, {button: {button}})
         .then((m) => {
           bot.on('clickButton', async (button) => {
             await button.reply.defer()
