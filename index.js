@@ -62,17 +62,17 @@ bot.on('ready', async () => {
           .setID('join');
         
         riders.clear()
-        let arrivedAt = new Discord.MessageEmbed()
+        let arrivedAt = Discord.MessageEmbed()
         .setTitle(regions[currentRegion])
         .setDescription(`The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`)
         .setTimestamp(new Date(date.getTime() + 2 * 60000))
         .setFooter(`Leaving:`)
-        let enterTrain = new Discord.MessageEmbed()
+        let enterTrain = Discord.MessageEmbed()
         .setTitle(`Entered Train to: ${regions[currentRegion]}`)
         .setDescription(`You have entered the train. Press the button again to exit.`)
         .setTimestamp(new Date(date.getTime() + 2 * 60000))
         .setFooter(`Leaving:`)
-        let exitTrain = new Discord.MessageEmbed()
+        let exitTrain = Discord.MessageEmbed()
         .setTitle(`Exited Train`)
         .setDescription(`You have exited the train. press the button again to enter.`)
 
