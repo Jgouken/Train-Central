@@ -27,7 +27,6 @@ bot.on('ready', async () => {
   const train = bot.channels.cache.get("860608724019314768")
   const member = guild.members.cache.get("860171173518245928")
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
-
   setInterval (async function () {
     train.send(`Train will depart in **15** seconds.`)
     .then((l) => {
@@ -66,7 +65,8 @@ bot.on('ready', async () => {
             }
           }
         })
-        .then((m) => {
+        .then((message) => {
+          var m = train.messages.fetch(message.id)
           m.react('🚂')
           const filter = (user) => {
             return !user.bot
