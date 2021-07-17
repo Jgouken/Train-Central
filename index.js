@@ -78,8 +78,8 @@ bot.on('ready', async () => {
             riders.add(user.id)
           });
   
-          collector.on('end', () => {
-            train.bulkDelete(100)
+          collector.on('end', async () => {
+            await train.bulkDelete(100)
           })
         })
       }, config.warningTime * 1000);
