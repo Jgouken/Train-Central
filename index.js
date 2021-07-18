@@ -1,5 +1,5 @@
 const config = require('./config/config')
-const {bot, Discord} = require('./config/config')
+const {bot, Discord, warningTime} = require('./config/config')
 const riders = new Set();
 
 let regions = [
@@ -29,9 +29,9 @@ bot.on('ready', async () => {
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
 
   setInterval (async function () {
-    train.send(`Train will depart in **15** seconds.`)
+    train.send(`Train will depart in **${warningTime}** seconds.`)
     .then((l) => {
-      l.delete({timeout:0})
+      l.delete({timeout: (warningTime * 1000)})
       setTimeout (async function () {
         var date = new Date();
         member.roles.remove(regionIDs[currentRegion])
@@ -79,7 +79,7 @@ bot.on('ready', async () => {
           });
   
           collector.on('end', async () => {
-            await train.bulkDelete(100)
+            train.bulkDelete(2)
           })
         })
       }, config.warningTime * 1000);
