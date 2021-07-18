@@ -1,6 +1,18 @@
 const config = require('./config/config')
 const {bot, Discord, warningTime} = require('./config/config')
 const riders = new Set();
+const mysql = require('mysql');
+const util = require('util');
+let con = mysql.createConnection({
+    host: 'panel.bitsec.dev',
+    user: 'u318_3GXpXODhvF',
+    password: 'g9t3NvB.6o4wOk7Lx!u8HhCp',
+    database: 's318_TCPhone'
+});
+
+con.connect();
+var dbName = 'users'
+const query = util.promisify(con.query).bind(con);
 
 let regions = [
   "Work Region",
@@ -75,6 +87,15 @@ bot.on('ready', async () => {
           const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
           
           collector.on('collect', (reaction, user) => {
+            con.query(`SELECT balance FROM ${cmysql.dbName} WHERE id = '${user.id}'`, async function (err, result, fields) {
+              Object.keys(result).forEach(async function(key) {
+                  var bal = JSON.parse(JSON.stringify(result[key])).balance
+                  if (Number(bal) < 10) {
+                    user.send('HALT! You do not have sufficient funds to board this train! You require $10!').catch(() => {return})
+                    reaction.users.remove(user.id)
+                  }
+                });
+            })
             riders.add(user.id)
           });
   
