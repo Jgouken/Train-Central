@@ -41,71 +41,65 @@ bot.on('ready', async () => {
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
 
   setInterval (async function () {
-    train.send(`Train will depart in **${warningTime}** seconds.`)
-    .then((l) => {
-      l.delete({timeout: (warningTime * 1000)})
-      setTimeout (async function () {
-        var date = new Date();
-        member.roles.remove(regionIDs[currentRegion])
-        currentRegion += 1
-        if (!regions[currentRegion]) currentRegion = 0
+      var date = new Date();
+      member.roles.remove(regionIDs[currentRegion])
+      currentRegion += 1
+      if (!regions[currentRegion]) currentRegion = 0
+      member.roles.add(regionIDs[currentRegion])
+      train.overwritePermissions([
+        {
+          id: guild.id,
+          deny: ['VIEW_CHANNEL']
+        },
+        {
+          id: regionIDs[currentRegion],
+          allow: ['VIEW_CHANNEL'],
+        },
+      ]);
+
+      riders.forEach(user => {
+        let member = guild.members.cache.get(user)
+        for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
         member.roles.add(regionIDs[currentRegion])
-        train.overwritePermissions([
-          {
-            id: guild.id,
-            deny: ['VIEW_CHANNEL']
-          },
-          {
-            id: regionIDs[currentRegion],
-            allow: ['VIEW_CHANNEL'],
-          },
-        ]);
-  
-        riders.forEach(user => {
-          let member = guild.members.cache.get(user)
-          for (let i = -1; i < regionIDs.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
-          member.roles.add(regionIDs[currentRegion])
-        })
-  
-        riders.clear()
-        train.send({
-          embed: {
-            title: regions[currentRegion],
-            description: `The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`,
-            timestamp: new Date(date.getTime() + 2 * 60000),
-            footer: {
-              text: `Leaving:`
-            }
+      })
+
+      riders.clear()
+      train.send({
+        embed: {
+          title: regions[currentRegion],
+          description: `The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.\nReact to enter the train.`,
+          timestamp: new Date(date.getTime() + 2 * 60000),
+          footer: {
+            text: `Leaving:`
           }
-        })
-        .then((m) => {
-          m.react('🚂')
-          const filter = (user) => {
-            return !user.bot
-          };
-          
-          const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
-          
-          collector.on('collect', (reaction, user) => {
-            con.query(`SELECT balance FROM ${cmysql.dbName} WHERE id = '${user.id}'`, async function (err, result, fields) {
-              Object.keys(result).forEach(async function(key) {
-                  var bal = JSON.parse(JSON.stringify(result[key])).balance
-                  if (Number(bal) < 10) {
-                    user.send('HALT! You do not have sufficient funds to board this train! You require $10!').catch(() => {return})
-                    reaction.users.remove(user.id)
-                  }
-                });
-            })
-            riders.add(user.id)
-          });
-  
-          collector.on('end', async () => {
-            train.bulkDelete(2)
+        }
+      })
+      .then((m) => {
+        m.react('🚂')
+        const filter = (user) => {
+          return !user.bot
+        };
+        
+        const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
+        
+        collector.on('collect', (reaction, user) => {
+          con.query(`SELECT balance FROM ${dbName} WHERE id = '${user.id}'`, async function (err, result, fields) {
+            Object.keys(result).forEach(async function(key) {
+                var bal = JSON.parse(JSON.stringify(result[key])).balance
+                if (Number(bal) < 10) {
+                  user.send('HALT! You do not have sufficient funds to board this train! You require $10!').catch(() => {return})
+                  reaction.users.remove(user.id)
+                }
+              });
           })
+          riders.add(user.id)
+        });
+
+        collector.on('end', async () => {
+          train.bulkDelete(2)
         })
-      }, config.warningTime * 1000);
     })
-  }, (config.waitTime - (config.warningTime - 1)) * 1000);
+  }, (config.waitTime) * 1000);
 })
 
 bot.login(config.TOKEN)
