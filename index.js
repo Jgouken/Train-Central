@@ -63,9 +63,9 @@ bot.on('ready', async () => {
         member.roles.add(regionIDs[currentRegion])
       })
 
-      await cmysql.query(`UPDATE train SET regionid = '${regionIDs[currentRegion]}' WHERE id = 'train'`)
-      await cmysql.query(`UPDATE train SET region = '${regions[currentRegion]}' WHERE id = 'train'`)
-      await cmysql.query(`UPDATE train SET nextregion = '${regions[currentRegion + 1] || regions[0]}' WHERE id = 'train'`)
+      await query(`UPDATE train SET regionid = '${regionIDs[currentRegion]}' WHERE id = 'train'`)
+      await query(`UPDATE train SET region = '${regions[currentRegion]}' WHERE id = 'train'`)
+      await query(`UPDATE train SET nextregion = '${regions[currentRegion + 1] || regions[0]}' WHERE id = 'train'`)
 
       riders.clear()
       train.send(`React to enter the train to go to **${regions[currentRegion + 1] || regions[0]}**.`)
