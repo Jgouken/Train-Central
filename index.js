@@ -64,6 +64,7 @@ bot.on('ready', async () => {
       })
 
       riders.clear()
+      train.send(`React to enter the train to go to **${regions[currentRegion + 1] || regions[0]}**.`)
       train.send({
         embed: {
           title: regions[currentRegion],
@@ -80,7 +81,7 @@ bot.on('ready', async () => {
           return !user.bot
         };
         
-        const collector = m.createReactionCollector(filter, { time: (config.waitTime - 1) * 1000 });
+        const collector = m.createReactionCollector(filter, { time: (config.waitTime - 2) * 1000 });
         
         collector.on('collect', (reaction, user) => {
           con.query(`SELECT balance FROM ${dbName} WHERE id = '${user.id}'`, async function (err, result, fields) {
