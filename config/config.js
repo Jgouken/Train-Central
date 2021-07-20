@@ -8,7 +8,7 @@ module.exports = {
     name: 'Train',
     TOKEN: process.env.TOKEN,
     prefix: `tc!`,
-    stop: false,
+    stop: true,
     waitTime: 120, // seconds
     timeFrame: this.waitTime, // Time maximum for users to enter the train.
 }
