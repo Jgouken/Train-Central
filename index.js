@@ -37,6 +37,7 @@ bot.on('ready', async () => {
   console.log(`\n\n${config.name.toLocaleUpperCase()} IS ONLINE!\n\n`);
   const guild = bot.guilds.cache.get("851966158651392040")
   const train = bot.channels.cache.get("860608724019314768")
+  const locator = bot.channels.cache.get("860038388945125377")
   const member = guild.members.cache.get("860171173518245928")
   for (let i = -1; i < regions.length; i++) member.roles.remove(regionIDs[i]).catch(() => {return})
 
@@ -69,6 +70,35 @@ bot.on('ready', async () => {
 
       riders.clear()
       train.send(`React to enter the train to go to **${regions[currentRegion + 1] || regions[0]}**.`)
+      switch(currentRegion) {
+        case 0: {
+          locator.send(`**Work Region** - Fun Region - Shop Region - Airport`)
+          break;
+        }
+        case 1: {
+          locator.send(`Work Region - **Fun Region** - Shop Region - Airport`)
+          break;
+        }
+        case 2: {
+          locator.send(`Work Region - Fun Region - **Shop Region** - Airport`)
+          break;
+        }
+        case 3: {
+          locator.send(`Work Region - Fun Region - Shop Region - **Airport**`)
+          break;
+        }
+      }
+      if (currentRegion === 0)
+      locator.send({
+        embed: {
+          title: regions[currentRegion],
+          description: `The TC-Train has arrived at the ${regions[currentRegion]}. Next stop: **${regions[currentRegion + 1] || regions[0]}**.`,
+          timestamp: new Date(date.getTime() + 2 * 60000),
+          footer: {
+            text: `Leaving:`
+          }
+        }
+      })
       train.send({
         embed: {
           title: regions[currentRegion],
