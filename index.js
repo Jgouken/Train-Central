@@ -88,7 +88,7 @@ bot.on('ready', async () => {
           break;
         }
       }
-      if (currentRegion === 0)
+
       locator.send({
         embed: {
           title: regions[currentRegion],
@@ -132,6 +132,7 @@ bot.on('ready', async () => {
 
         collector.on('end', async () => {
           train.bulkDelete(2)
+          locator.bulkDelete(2)
         })
     })
   }, (config.waitTime) * 1000);
