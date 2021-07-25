@@ -72,19 +72,19 @@ bot.on('ready', async () => {
       train.send(`React to enter the train to go to **${regions[currentRegion + 1] || regions[0]}**.`)
       switch(currentRegion) {
         case 0: {
-          locator.send(`**Work Region** - Fun Region - Shop Region - Airport`)
+          locator.send(`**__Work Region__** - Fun Region - Shop Region - Airport`)
           break;
         }
         case 1: {
-          locator.send(`Work Region - **Fun Region** - Shop Region - Airport`)
+          locator.send(`Work Region - **__Fun Region__** - Shop Region - Airport`)
           break;
         }
         case 2: {
-          locator.send(`Work Region - Fun Region - **Shop Region** - Airport`)
+          locator.send(`Work Region - Fun Region - **__Shop Region__** - Airport`)
           break;
         }
         case 3: {
-          locator.send(`Work Region - Fun Region - Shop Region - **Airport**`)
+          locator.send(`Work Region - Fun Region - Shop Region - **__Airport__**`)
           break;
         }
       }
