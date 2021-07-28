@@ -131,8 +131,8 @@ bot.on('ready', async () => {
         });
 
         collector.on('end', async () => {
-          train.bulkDelete(2)
-          locator.bulkDelete(2)
+          train.bulkDelete(6)
+          locator.bulkDelete(6)
         })
     })
   }, (config.waitTime) * 1000);
